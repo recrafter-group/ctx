@@ -1,0 +1,10 @@
+name: Publish package version
+on:
+    push:
+        tags:
+            - version/*
+jobs:
+    publish_version:
+        uses: recrafter-group/.github/.github/workflows/release.yml@main
+        secrets:
+            npm_token: ${{ secrets.NPM_TOKEN }}

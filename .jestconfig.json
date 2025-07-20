@@ -1,0 +1,31 @@
+{
+  "transform": {
+    "^.+\\.[tj]sx?$": [
+      "ts-jest",
+      {
+        "tsconfig": "test/tsconfig.json",
+        "useESM": true
+      }
+    ]
+  },
+  "moduleNameMapper": {
+    "^(\\.{1,2}/.*)\\.js$": "$1"
+  },
+  "testEnvironment": "jsdom",
+  "collectCoverageFrom": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "!src/**/*.test.snap.ts"
+  ],
+  "coverageDirectory": "<rootDir>/.coverage/",
+  "coverageThreshold": {
+    "global": {
+      "branches": 100,
+      "functions": 100,
+      "lines": 100,
+      "statements": 100
+    }
+  },
+  "snapshotResolver": "<rootDir>/test/jest/snapshotResolver.ts",
+  "snapshotSerializers": ["<rootDir>/test/jest/htmlSnapshotSerializer.ts"]
+}
