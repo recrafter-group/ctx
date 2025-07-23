@@ -1,6 +1,6 @@
 {
   "name": "@recrafter/ctx",
-  "version": "0.0.0",
+  "version": "1.0.0-dev.1",
   "type": "module",
   "description": "A simple wrapper around React.createContext that makes it easy to use hooks and context together",
   "keywords": [
