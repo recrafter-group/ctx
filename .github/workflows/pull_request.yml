@@ -4,12 +4,12 @@ on:
 jobs:
     build:
         name: Build
-        uses: recrafter-group/.github/.github/workflows/build.yml@main
+        uses: recrafter-group/.github/.github/workflows/build.yml@version/1.0.0
     analyze:
         name: Analyze
-        uses: recrafter-group/.github/.github/workflows/analyze.yml@main
+        uses: recrafter-group/.github/.github/workflows/analyze.yml@version/1.0.0
         needs:
             - build
     test:
         name: Test
-        uses: recrafter-group/.github/.github/workflows/test.yml@main
+        uses: recrafter-group/.github/.github/workflows/test.yml@version/1.0.0
