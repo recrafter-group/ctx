@@ -13,9 +13,10 @@
   },
   "testEnvironment": "jsdom",
   "collectCoverageFrom": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "!src/**/*.test.snap.ts"
+    "<rootDir>/index.ts",
+    "<rootDir>/src/**/*.ts",
+    "<rootDir>/src/**/*.tsx",
+    "!<rootDir>/src/**/*.test.snap.ts"
   ],
   "coverageDirectory": "<rootDir>/.coverage/",
   "coverageThreshold": {
