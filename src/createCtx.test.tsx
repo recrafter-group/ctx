@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react';
 
-import {createCtx, MissingCtxProviderError} from './index.js';
+import {createCtx, MissingCtxProviderError} from './createCtx.js';
 
 const useValue = () => 'Hello!';
 const createChild = (Ctx: {use(): string}) => {
