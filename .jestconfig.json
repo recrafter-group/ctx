@@ -26,6 +26,7 @@
       "statements": 100
     }
   },
+  "coverageReporters": ["text", "html", "json", "json-summary"],
   "snapshotResolver": "<rootDir>/test/jest/snapshotResolver.ts",
   "snapshotSerializers": ["<rootDir>/test/jest/htmlSnapshotSerializer.ts"]
 }
