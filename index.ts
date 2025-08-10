@@ -6,4 +6,6 @@ export {
     type UseValue,
     type CtxProps,
     type CtxComponent,
+    type InjectCtx,
+    type CompatibleComponentType,
 } from './src/index.js';

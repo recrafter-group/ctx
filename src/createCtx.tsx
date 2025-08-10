@@ -16,6 +16,29 @@ export interface CtxProps<Value> {
 }
 
 /**
+ * @public
+ */
+export type CompatibleComponentType<T, U> = {
+    [K in keyof T & keyof U]: T[K] extends U[K] ? never : K;
+}[keyof T & keyof U] extends never
+    ? React.ComponentType<U>
+    : never;
+
+/**
+ * @public
+ */
+export interface InjectCtx<Value> {
+    <ComponentProps>(
+        Component: CompatibleComponentType<Value, ComponentProps>,
+    ): React.ComponentType<Omit<ComponentProps, keyof Value>>;
+
+    <InjectedProps, ComponentProps>(
+        useMappedValue: (value: Value) => InjectedProps,
+        Component: CompatibleComponentType<InjectedProps, ComponentProps>,
+    ): React.ComponentType<Omit<ComponentProps, keyof InjectedProps>>;
+}
+
+/**
  * Interface that defines a context component with associated properties and methods.
  *
  * @typeParam Value - The type of value that the context will provide.
@@ -45,6 +68,8 @@ export interface CtxComponent<Value, Props = {}> {
      * @returns The context value
      */
     use: UseCtx<Value>;
+
+    inject: InjectCtx<Value>;
 }
 
 /**
@@ -97,6 +122,8 @@ export class MissingCtxProviderError extends Error {
 }
 
 const MISSING_CTX_PROVIDER_SYMBOL = Symbol('No context provider');
+
+const defaultValueMapper = <V,>(value: V) => value;
 
 /**
  * Factory function that creates a context component with associated helper methods.
@@ -151,6 +178,12 @@ export const createCtx: CreateCtx = (useValue, displayName) => {
             throw new MissingCtxProviderError(Ctx.displayName);
         }
         return value;
+    };
+    Ctx.inject = (...args: any[]) => {
+        const [useMappedValue = defaultValueMapper, Component] = args.length > 1 ? args : [undefined, args[0]];
+        const CtxInjector = (props: any) => <Component {...props} {...useMappedValue(Ctx.use())} />;
+        CtxInjector.displayName = `CtxInjector(${Ctx.displayName}, ${Component.displayName ?? Component.name})`;
+        return CtxInjector;
     };
     return Ctx;
 };
