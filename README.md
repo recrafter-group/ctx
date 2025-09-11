@@ -5,6 +5,24 @@ _A simple wrapper around
 makes it easy to use hooks and context together. It reduces boilerplate and
 improves type safety, providing a clean and developer-friendly API._
 
+## Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+    - [Basic Example](#basic-example)
+    - [Using Render Functions](#using-render-functions)
+    - [Passing Props to Context](#passing-props-to-context)
+    - [Missing Provider Error Prevention](#missing-provider-error-prevention)
+    - [Using injections](#using-injections)
+        - [Direct injection](#direct-injection)
+        - [Mapped injection](#mapped-injection)
+- [API](#api)
+    - [createCtx(useValue, displayName?)](#createctxusevalue-displayname)
+    - [CtxComponent](#ctxcomponent)
+- [Development](#development)
+
 ## Features
 
 - 🔄 Simple hook-based context creation with minimal boilerplate
@@ -123,6 +141,92 @@ You'll get a clear error message:
 > Context provider is missing. Please mount Ctx(inputValue) component above in
 > the component tree.
 
+### Using injections
+
+The `Ctx.inject()` - HOC provides an alternative way to consume context values
+by injecting them directly into component props.
+
+#### Direct injection
+
+```tsx
+const useValue = () => {
+    const [value, setValue] = React.useState('');
+    return {value, setValue};
+};
+const Ctx = createCtx(useValue);
+
+type InputProps = {
+    value: string;
+    setValue: (value: string) => void;
+    type: 'password' | 'text';
+};
+
+const Input = ({type, value, setValue}: InputProps) => (
+    <input
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+    />
+);
+
+type ResetButtonProps = {setValue: (value: string) => void};
+
+const ResetButton = ({setValue}: ResetButtonProps) => (
+    <button onClick={() => setValue('')}>Reset</button>
+);
+
+// Inject context values directly into component props
+const InjectedInput = Ctx.inject(Input);
+const InjectedResetButton = Ctx.inject(ResetButton);
+
+const App = () => (
+    <Ctx>
+        <InjectedInput type="text" />
+        <InjectedResetButton />
+    </Ctx>
+);
+```
+
+#### Mapped injection
+
+You can also use a mapper function to transform context values. The function can
+be a regular function or a React hook:
+
+```tsx
+const useValue = () => React.useState('');
+const Ctx = createCtx(useValue);
+
+type InputProps = {
+    value: string;
+    setValue: (value: string) => void;
+    type: 'password' | 'text';
+};
+
+const Input = ({type, value, setValue}: InputProps) => (
+    <input
+        type={type}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+    />
+);
+
+type ExtraProps = {wrapper: string};
+
+const InjectedInput = Ctx.inject(
+    ([value, setValue], {wrapper}: ExtraProps) => ({
+        value: `${wrapper}${value}${wrapper}`,
+        setValue,
+    }),
+    Input,
+);
+
+const App = () => (
+    <Ctx>
+        <InjectedInput type="text" wrapper="--" />
+    </Ctx>
+);
+```
+
 ## API
 
 ### `createCtx(useValue, displayName?)`
@@ -136,7 +240,7 @@ Function to create a context.
 
 **Returns:**
 
-- `CtxComponent`: Context component with a `use()` method
+- `CtxComponent`: Context component with `use()` and `inject()` methods
 
 ### `CtxComponent`
 
@@ -147,7 +251,12 @@ Function to create a context.
 
 **Methods:**
 
-- `use()`: Hook to get the context value
+- `use(): Value`: Hook to get the context value
+- `inject(Component): InjectedComponent`: Inject context value directly into
+  component props
+- `inject(useMappedValue, Component): InjectedComponent`: Inject transformed
+  context value using a mapper function, that can be a regular function or a
+  React hook
 
 ## Development
 
