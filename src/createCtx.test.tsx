@@ -1,5 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react';
+import {test, expect, describe, beforeAll, afterAll, vi} from 'vitest';
 
 import {createCtx, MissingCtxProviderError} from './createCtx.js';
 
@@ -76,7 +77,7 @@ describe('Should render children using context value based on props', () => {
 
 describe('Should not render children without Provider above', () => {
     beforeAll(() => {
-        jest.spyOn(console, 'error').mockImplementation(() => jest.fn());
+        vi.spyOn(console, 'error').mockImplementation(() => vi.fn());
     });
 
     test('Should display error without context name', () => {
@@ -98,7 +99,7 @@ describe('Should not render children without Provider above', () => {
     });
 
     afterAll(() => {
-        jest.restoreAllMocks();
+        vi.restoreAllMocks();
     });
 });
 

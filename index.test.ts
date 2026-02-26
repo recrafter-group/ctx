@@ -1,3 +1,5 @@
+import {test, expect} from 'vitest';
+
 import * as packageExports from './index.js';
 
 const expectedPackageExports = {
