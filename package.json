@@ -54,7 +54,7 @@
     "@dmitriyzverev/eslint-config": "3.0.1",
     "@dmitriyzverev/prettier-config": "2.0.0",
     "@dmitriyzverev/typescript-config": "1.1.1",
-    "@microsoft/api-extractor": "7.52.8",
+    "@microsoft/api-extractor": "7.57.6",
     "@testing-library/react": "16.3.0",
     "@types/node": "22.16.0",
     "@types/react": "19.1.8",
