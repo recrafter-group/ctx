@@ -1,8 +1,14 @@
 import * as packageExports from './index.js';
 
-test('Should not export anything unnecessary', () => {
-    expect(packageExports).toEqual({
-        createCtx: expect.any(Function),
-        MissingCtxProviderError: expect.any(Function),
-    });
+const expectedPackageExports = {
+    createCtx: expect.any(Function),
+    MissingCtxProviderError: expect.any(Function),
+};
+
+test('Should export only public API', () => {
+    expect(Object.keys(packageExports)).toStrictEqual(Object.keys(expectedPackageExports));
+});
+
+test('Should export correct properties', () => {
+    expect(packageExports).toMatchObject(expectedPackageExports);
 });
