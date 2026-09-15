@@ -17,6 +17,11 @@ export default defineConfig({
                 statements: 100,
             },
         },
+        typecheck: {
+            enabled: true,
+            tsconfig: 'tsconfig.test.json',
+            include: ['**/*.test.ts', '**/*.test.tsx'],
+        },
         snapshotSerializers: ['test/htmlSnapshotSerializer.ts'],
         resolveSnapshotPath: (testPath) => testPath.replace(/test\.tsx?$/, `test.snap.ts`),
     },
