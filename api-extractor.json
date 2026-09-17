@@ -2,9 +2,6 @@
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "<projectFolder>/.package/index.d.ts",
   "bundledPackages": [],
-  "compiler": {
-    "skipLibCheck": true
-  },
   "apiReport": {
     "enabled": false,
     "includeForgottenExports": true
